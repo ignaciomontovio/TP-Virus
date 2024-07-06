@@ -11,40 +11,39 @@
     ("EdadTypeReplace",ColumnTypeModifier("Edad",int))
 
 # Clases nuevas para el PIPELINE
-
-class ReplaceValue(BaseEstimator, TransformerMixin):
-    def __init__(self, column, old_value, new_value):
-        self.column = column
-        self.old_value = old_value
-        self.new_value = new_value
-
-    def fit(self, X, y=None):
-        return self
-
-    def transform(self, X):
-        Xc = X.copy()
-        Xc.loc[:, self.column] = Xc[self.column].replace(self.old_value, self.new_value)
-        return Xc
+    class ReplaceValue(BaseEstimator, TransformerMixin):
+        def __init__(self, column, old_value, new_value):
+            self.column = column
+            self.old_value = old_value
+            self.new_value = new_value
     
-class ColumnTypeModifier:
-    def __init__(self, column_name, new_dtype):
-        self.column_name = column_name
-        self.new_dtype = new_dtype
-    def fit(self, X, y=None):
-        return self
-    def transform(self, X):
-        Xc = X.copy()
-        Xc[self.column_name] = Xc[self.column_name].astype(self.new_dtype)
-        return Xc
-class ColumnDrop:
-    def __init__(self, columns_to_drop=[]):
-        super().__init__()
-        self.columns_to_drop=columns_to_drop
-
-    def fit(self, X, y=None):
-        return self
+        def fit(self, X, y=None):
+            return self
     
-    def transform(self, X):
-        Xc = X.copy()
-        Xc = Xc.drop(self.columns_to_drop, axis=1)
-        return Xc
+        def transform(self, X):
+            Xc = X.copy()
+            Xc.loc[:, self.column] = Xc[self.column].replace(self.old_value, self.new_value)
+            return Xc
+        
+    class ColumnTypeModifier:
+        def __init__(self, column_name, new_dtype):
+            self.column_name = column_name
+            self.new_dtype = new_dtype
+        def fit(self, X, y=None):
+            return self
+        def transform(self, X):
+            Xc = X.copy()
+            Xc[self.column_name] = Xc[self.column_name].astype(self.new_dtype)
+            return Xc
+    class ColumnDrop:
+        def __init__(self, columns_to_drop=[]):
+            super().__init__()
+            self.columns_to_drop=columns_to_drop
+    
+        def fit(self, X, y=None):
+            return self
+        
+        def transform(self, X):
+            Xc = X.copy()
+            Xc = Xc.drop(self.columns_to_drop, axis=1)
+            return Xc
