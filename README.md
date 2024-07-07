@@ -7,7 +7,7 @@
     ("LVLReplace", ReplaceValue("LVL",1000000, np.nan)), # Reemplazar los 1000000 por nan
     ("LVLImputer", ColImputer(imputer=SimpleImputer(strategy='mean'), columns=["LVL"])),
     ("LVLScaler", ColScaler(scaler=MinMaxScaler(), columns=["LVL"])),
-    ("EdadImputer", ColImputer(imputer=SimpleImputer(strategy='mean'), columns=["Edad"])),
+    ("EdadImputer", ColImputer(imputer=SimpleImputer(strategy='median'), columns=["Edad"])),
     ("EdadTypeReplace",ColumnTypeModifier("Edad",int))
 
 # Clases nuevas para el PIPELINE
